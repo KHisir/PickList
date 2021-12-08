@@ -3,11 +3,7 @@
 
 <link href="https://fonts.googleapis.com/css?family=Quicksand:400,700" rel="stylesheet">
 
-<!-- <div *ngFor="let item of source; let i = index">
-  <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item}"></ng-container>
-</div> -->
-
-<div class="cc-picklist-wrapper">
+<div class="cc-picklist">
   <div class="cc-picklist-buttons cc-picklist-source-buttons">
     <button class="secondary-button"><i class="fas fa-angle-double-up"></i></button>
     <button class="secondary-button"><i class="fas fa-angle-up"></i></button>
@@ -15,19 +11,39 @@
     <button class="secondary-button"><i class="fas fa-angle-double-down"></i></button>
   </div>
 
-  <div class="cc-picklist-source-wrapper">
-    2
+  <div class="cc-picklist-wrapper cc-picklist-source-wrapper">
+    <div class="cc-picklist-header">{{sourceHeader}}</div>
+    <div class="cc-picklist-filter">filter</div>
+    <div class="cc-picklist-list">
+      <div class="cc-picklist-list-item" *ngFor="let item of source; let i = index" [class.checked-background]="item.isActive === true">
+        <div class="cc-checkbox">
+          <input class="inp-cbx" [(ngModel)]="item.isActive" (change)="countCheckedItems()" [attr.id]="'id-' + componentId + i" type="checkbox"
+            style="display: none;" /><label class="cbx" [attr.for]="'id-' + componentId + i"><span><svg width="12px"
+                height="9px" viewbox="0 0 12 9">
+                <polyline points="1 5 4 8 11 1"></polyline>
+              </svg></span><span></span></label>
+        </div>
+        <div>
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item}"></ng-container>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="cc-picklist-buttons cc-picklist-transfer-buttons">
     <button class="primary-button"><i class="fas fa-angle-double-right"></i></button>
-    <button class="primary-button"><i class="fas fa-angle-right"></i></button>
+    <button class="primary-button p-relative">
+      <i class="fas fa-angle-right"></i>
+      <span class="cc-badge" *ngIf="checkedItems.length > 0">{{checkedItems.length}}</span>
+    </button>
     <button class="primary-button"><i class="fas fa-angle-left"></i></button>
     <button class="primary-button"><i class="fas fa-angle-double-left"></i></button>
   </div>
 
-  <div class="cc-picklist-target-wrapper">
-    4
+  <div class="cc-picklist-wrapper cc-picklist-target-wrapper">
+    <div class="cc-picklist-header">{{targetHeader}}</div>
+    <div class="cc-picklist-filter">filter</div>
+    <div class="cc-picklist-list">list</div>
   </div>
   <div class="cc-picklist-buttons cc-picklist-target-buttons">
     <button class="secondary-button"><i class="fas fa-angle-double-up"></i></button>

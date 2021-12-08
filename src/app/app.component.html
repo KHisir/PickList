@@ -1,5 +1,5 @@
-<app-cc-picklist>
+<app-cc-picklist [source]="sourceData" sourceHeader="Data" targetHeader="Selected">
   <ng-template let-item="item">
-    <h2>{{item}}</h2>
+    <span>{{item.name}}</span>
   </ng-template>
 </app-cc-picklist>

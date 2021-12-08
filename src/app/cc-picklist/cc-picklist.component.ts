@@ -15,11 +15,29 @@ export class CcPicklistComponent implements OnInit {
 
   @ContentChild(TemplateRef) template!: TemplateRef<any>
 
+  componentId: string;
+  checkedItems: any[] = [];
+
   constructor() {
-    this.source = ["item1", "item2", "item3"]
+    this.componentId = this.createComponentId();
   }
 
   ngOnInit() {
+  }
+
+  countCheckedItems(): void {
+    this.checkedItems = this.source.filter((x) => x.isActive === true);
+  }
+
+  createComponentId() {
+    // tslint:disable-next-line:only-arrow-functions
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      // tslint:disable-next-line:no-bitwise
+      const r = Math.random() * 16 | 0;
+      // tslint:disable-next-line:no-bitwise
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 
 }

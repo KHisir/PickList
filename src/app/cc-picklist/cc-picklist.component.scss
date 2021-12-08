@@ -1,5 +1,6 @@
 $primary-color: #ff4a85;
 $primary-color-hover: rgb(165, 37, 79);
+$primary-color-light: #ffe0ea;
 $secondary-color: #fff;
 $secondary-color-hover: rgb(177, 177, 177);
 $border-color: #dedede;
@@ -9,7 +10,7 @@ $border-radius: 0.3rem;
   font-family: quicksand, open sans, roboto, open sans, nunito, sans-serif;
 }
 
-.cc-picklist-wrapper {
+.cc-picklist {
   display: flex;
   box-sizing: border-box;
 
@@ -25,9 +26,31 @@ $border-radius: 0.3rem;
   padding: 1.25rem;
 }
 
-.cc-picklist-source-wrapper,
-.cc-picklist-target-wrapper {
+.cc-picklist-wrapper {
   flex: 1 1 50%;
+}
+
+.cc-picklist-list {
+  padding: 0.5rem 0;
+  height: 30rem;
+  overflow-y: auto;
+}
+
+.cc-picklist-list-item {
+  display: flex;
+  padding: 0.5rem 1rem;
+
+  &.checked-background {
+    background-color: $primary-color-light;
+  }
+
+  > div:nth-child(1) {
+    flex: 0 1 auto;
+  }
+
+  > div:nth-child(2) {
+    flex: 1 1 100%;
+  }
 }
 
 button {
@@ -44,6 +67,10 @@ button {
   &:disabled {
     cursor: not-allowed;
     pointer-events: none;
+  }
+
+  &.p-relative {
+    position: relative;
   }
 }
 
@@ -71,7 +98,7 @@ button.secondary-button {
 
 // applies to medium devices (tablets, less than 992px)
 @media (max-width: 991.98px) {
-  .cc-picklist-wrapper {
+  .cc-picklist {
     flex-direction: column;
   }
   .cc-picklist-buttons {
@@ -97,5 +124,126 @@ button.secondary-button {
 
   .cc-picklist-transfer-buttons .fa-angle-double-left:before {
     content: "\f102";
+  }
+}
+
+.cc-badge {
+  border-radius: 50rem;
+  background-color: $primary-color;
+  color: $secondary-color;
+
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  margin-right: 2px;
+  border: 1px solid $secondary-color;
+
+  &.hide {
+    display: none;
+  }
+}
+
+.cc-checkbox {
+  margin-right: 10px;
+
+  .cbx {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+  }
+  .cbx span {
+    display: inline-block;
+    vertical-align: middle;
+    transform: translate3d(0, 0, 0);
+  }
+  .cbx span:first-child {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    transform: scale(1);
+    vertical-align: middle;
+    border: 1px solid #b9b8c3;
+    transition: all 0.2s ease;
+  }
+  .cbx span:first-child svg {
+    position: absolute;
+    z-index: 1;
+    top: 5px;
+    left: 3px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: 16px;
+    transition: all 0.3s ease;
+    transition-delay: 0.1s;
+    transform: translate3d(0, 0, 0);
+  }
+  .cbx span:first-child:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: $primary-color;
+    display: block;
+    transform: scale(0);
+    opacity: 1;
+    border-radius: 50%;
+    transition-delay: 0.2s;
+  }
+  // .cbx span:last-child {
+  //   margin-left: 8px;
+  // }
+  .cbx span:last-child:after {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: #b9b8c3;
+    transform-origin: 0 0;
+    transform: scaleX(0);
+  }
+  .cbx:hover span:first-child {
+    border-color: $primary-color;
+  }
+
+  .inp-cbx:checked + .cbx span:first-child {
+    border-color: $primary-color;
+    background: $primary-color;
+    animation: check 0.6s ease;
+  }
+  .inp-cbx:checked + .cbx span:first-child svg {
+    stroke-dashoffset: 0;
+  }
+  .inp-cbx:checked + .cbx span:first-child:before {
+    transform: scale(2.2);
+    opacity: 0;
+    transition: all 0.6s ease;
+  }
+  .inp-cbx:checked + .cbx span:last-child {
+    color: #b9b8c3;
+    transition: all 0.3s ease;
+  }
+  .inp-cbx:checked + .cbx span:last-child:after {
+    transition: all 0.3s ease;
+  }
+
+  @keyframes check {
+    50% {
+      transform: scale(0.8);
+    }
   }
 }
