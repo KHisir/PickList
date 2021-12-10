@@ -5,20 +5,20 @@
 
 <div class="cc-picklist">
   <div class="cc-picklist-buttons cc-picklist-source-buttons">
-    <button class="secondary-button"><i class="fas fa-angle-double-up"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-up"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-down"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-double-down"></i></button>
+    <button class="secondary-button" (click)="sortTop()"><i class="fas fa-angle-double-up"></i></button>
+    <button class="secondary-button" (click)="sortUp()"><i class="fas fa-angle-up"></i></button>
+    <button class="secondary-button" (click)=sortDown()><i class="fas fa-angle-down"></i></button>
+    <button class="secondary-button" (click)="sortBottom()"><i class="fas fa-angle-double-down"></i></button>
   </div>
 
   <div class="cc-picklist-wrapper cc-picklist-source-wrapper">
-    <div class="cc-picklist-header">{{sourceHeader}}</div>
+    <div class="cc-picklist-header"><b>{{sourceHeader}}</b></div>
     <div class="cc-picklist-filter">filter</div>
-    <div class="cc-picklist-list">
-      <div class="cc-picklist-list-item" *ngFor="let item of source; let i = index" [class.checked-background]="item.isActive === true">
+    <div class="cc-picklist-list" #sourceContainer>
+      <div class="cc-picklist-list-item" *ngFor="let item of source; let i = index;" [attr.data-index]="i" [class.checked-background]="item.isActive === true">
         <div class="cc-checkbox">
-          <input class="inp-cbx" [(ngModel)]="item.isActive" (change)="countCheckedItems()" [attr.id]="'id-' + componentId + i" type="checkbox"
-            style="display: none;" /><label class="cbx" [attr.for]="'id-' + componentId + i"><span><svg width="12px"
+          <input class="inp-cbx" [(ngModel)]="item.isActive" [attr.id]="'source-' + componentId + i" type="checkbox"
+            style="display: none;" /><label class="cbx" [attr.for]="'source-' + componentId + i"><span><svg width="12px"
                 height="9px" viewbox="0 0 12 9">
                 <polyline points="1 5 4 8 11 1"></polyline>
               </svg></span><span></span></label>
@@ -28,23 +28,48 @@
         </div>
       </div>
     </div>
+    <div class="cc-picklist-footer">
+      <span>Total: {{source.length}}</span>
+      <span>{{getCheckedItems(listType.Source).length}} selected.</span>
+    </div>
   </div>
 
   <div class="cc-picklist-buttons cc-picklist-transfer-buttons">
-    <button class="primary-button"><i class="fas fa-angle-double-right"></i></button>
-    <button class="primary-button p-relative">
+    <button class="primary-button" (click)="transferSourceToTarget(true)"><i class="fas fa-angle-double-right"></i></button>
+    <button class="primary-button p-relative" (click)="transferSourceToTarget()">
       <i class="fas fa-angle-right"></i>
-      <span class="cc-badge" *ngIf="checkedItems.length > 0">{{checkedItems.length}}</span>
+      <span class="cc-badge" *ngIf="getCheckedItems(listType.Source).length > 0">{{getCheckedItems(listType.Source).length}}</span>
     </button>
-    <button class="primary-button"><i class="fas fa-angle-left"></i></button>
-    <button class="primary-button"><i class="fas fa-angle-double-left"></i></button>
+    <button class="primary-button p-relative" (click)="transferTargetToSource()">
+      <i class="fas fa-angle-left"></i>
+      <span class="cc-badge" *ngIf="getCheckedItems(listType.Target).length > 0">{{getCheckedItems(listType.Target).length}}</span>
+    </button>
+    <button class="primary-button" (click)="transferTargetToSource(true)"><i class="fas fa-angle-double-left"></i></button>
   </div>
 
   <div class="cc-picklist-wrapper cc-picklist-target-wrapper">
-    <div class="cc-picklist-header">{{targetHeader}}</div>
+    <div class="cc-picklist-header"><b>{{targetHeader}}</b></div>
     <div class="cc-picklist-filter">filter</div>
-    <div class="cc-picklist-list">list</div>
+    <div class="cc-picklist-list">
+      <div class="cc-picklist-list-item" *ngFor="let item of target; let i = index" [attr.data-index]="i" [class.checked-background]="item.isActive === true">
+        <div class="cc-checkbox">
+          <input class="inp-cbx" [(ngModel)]="item.isActive" [attr.id]="'target-' + componentId + i" type="checkbox"
+            style="display: none;" /><label class="cbx" [attr.for]="'target-' + componentId + i"><span><svg width="12px"
+                height="9px" viewbox="0 0 12 9">
+                <polyline points="1 5 4 8 11 1"></polyline>
+              </svg></span><span></span></label>
+        </div>
+        <div>
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item}"></ng-container>
+        </div>
+      </div>
+    </div>
+    <div class="cc-picklist-footer">
+      <span>Total: {{target.length}}</span>
+      <span>{{getCheckedItems(listType.Target).length}} selected.</span>
+    </div>
   </div>
+
   <div class="cc-picklist-buttons cc-picklist-target-buttons">
     <button class="secondary-button"><i class="fas fa-angle-double-up"></i></button>
     <button class="secondary-button"><i class="fas fa-angle-up"></i></button>

@@ -5,6 +5,7 @@ $secondary-color: #fff;
 $secondary-color-hover: rgb(177, 177, 177);
 $border-color: #dedede;
 $border-radius: 0.3rem;
+$header-footer-bg: #ebedef;
 
 * {
   font-family: quicksand, open sans, roboto, open sans, nunito, sans-serif;
@@ -14,9 +15,9 @@ $border-radius: 0.3rem;
   display: flex;
   box-sizing: border-box;
 
-  > div {
-    border: 1px dashed #000;
-  }
+  // > div {
+  //   border: 1px dashed #000;
+  // }
 }
 
 .cc-picklist-buttons {
@@ -28,11 +29,13 @@ $border-radius: 0.3rem;
 
 .cc-picklist-wrapper {
   flex: 1 1 50%;
+  border: 1px solid $header-footer-bg;
+  border-radius: 6px;
 }
 
 .cc-picklist-list {
-  padding: 0.5rem 0;
   height: 30rem;
+  padding: 0.5rem 0;
   overflow-y: auto;
 }
 
@@ -51,6 +54,22 @@ $border-radius: 0.3rem;
   > div:nth-child(2) {
     flex: 1 1 100%;
   }
+}
+
+.cc-picklist-header {
+  padding: 0.5rem 1rem;
+  background-color: $header-footer-bg;
+}
+
+.cc-picklist-filter {
+  padding: 0.5rem 1rem;
+}
+
+.cc-picklist-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: $header-footer-bg;
 }
 
 button {
