@@ -5,10 +5,10 @@
 
 <div class="cc-picklist">
   <div class="cc-picklist-buttons cc-picklist-source-buttons">
-    <button class="secondary-button" (click)="sortTop()"><i class="fas fa-angle-double-up"></i></button>
-    <button class="secondary-button" (click)="sortUp()"><i class="fas fa-angle-up"></i></button>
-    <button class="secondary-button" (click)=sortDown()><i class="fas fa-angle-down"></i></button>
-    <button class="secondary-button" (click)="sortBottom()"><i class="fas fa-angle-double-down"></i></button>
+    <button class="secondary-button" (click)="sortTop(source, sourceContainer)"><i class="fas fa-angle-double-up"></i></button>
+    <button class="secondary-button" (click)="sortUp(source)"><i class="fas fa-angle-up"></i></button>
+    <button class="secondary-button" (click)=sortDown(source)><i class="fas fa-angle-down"></i></button>
+    <button class="secondary-button" (click)="sortBottom(source, sourceContainer)"><i class="fas fa-angle-double-down"></i></button>
   </div>
 
   <div class="cc-picklist-wrapper cc-picklist-source-wrapper">
@@ -50,7 +50,7 @@
   <div class="cc-picklist-wrapper cc-picklist-target-wrapper">
     <div class="cc-picklist-header"><b>{{targetHeader}}</b></div>
     <div class="cc-picklist-filter">filter</div>
-    <div class="cc-picklist-list">
+    <div class="cc-picklist-list" #targetContainer>
       <div class="cc-picklist-list-item" *ngFor="let item of target; let i = index" [attr.data-index]="i" [class.checked-background]="item.isActive === true">
         <div class="cc-checkbox">
           <input class="inp-cbx" [(ngModel)]="item.isActive" [attr.id]="'target-' + componentId + i" type="checkbox"
@@ -71,9 +71,9 @@
   </div>
 
   <div class="cc-picklist-buttons cc-picklist-target-buttons">
-    <button class="secondary-button"><i class="fas fa-angle-double-up"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-up"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-down"></i></button>
-    <button class="secondary-button"><i class="fas fa-angle-double-down"></i></button>
+    <button class="secondary-button" (click)="sortTop(target, targetContainer)"><i class="fas fa-angle-double-up"></i></button>
+    <button class="secondary-button" (click)="sortUp(target)"><i class="fas fa-angle-up"></i></button>
+    <button class="secondary-button" (click)="sortDown(target)"><i class="fas fa-angle-down"></i></button>
+    <button class="secondary-button" (click)="sortBottom(target, targetContainer)"><i class="fas fa-angle-double-down"></i></button>
   </div>
 </div>

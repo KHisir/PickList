@@ -40,15 +40,20 @@ export class CcPicklistComponent implements OnInit {
       this.source.forEach(item => item.isActive = true);
     }
 
-    let checkedItems: any[] = this.getCheckedItems(ListType.Source);
+    let checked: any[] = [];
+    let rest: any[] = [];
+
     for (let i = this.source.length - 1; i >= 0; i--) {
       if (this.source[i].isActive === true) {
-        this.source.splice(this.source[i], 1);  
+        this.source[i].isActive = false;
+        checked.push(this.source[i]);  
+      } else {
+        rest.push(this.source[i]); 
       }
     }
 
-    checkedItems.forEach(item => item.isActive = false);
-    this.target = this.target.concat(checkedItems);
+    this.source = rest;
+    this.target = this.target.concat(checked);
   }
 
   transferTargetToSource(transferAll: boolean = false): void {
@@ -56,25 +61,30 @@ export class CcPicklistComponent implements OnInit {
       this.target.forEach(item => item.isActive = true);
     }
 
-    let checkedItems: any[] = this.getCheckedItems(ListType.Target);
+    let checked: any[] = [];
+    let rest: any[] = [];
+
     for (let i = this.target.length - 1; i >= 0; i--) {
       if (this.target[i].isActive === true) {
-        this.target.splice(this.source[i], 1);  
+        this.target[i].isActive = false;
+        checked.push(this.target[i]);  
+      } else {
+        rest.push(this.target[i]); 
       }
     }
 
-    checkedItems.forEach(item => item.isActive = false);
-    this.source = this.source.concat(checkedItems);
+    this.target = rest;
+    this.source = this.source.concat(checked);
   }
 
-  sortTop(): void {
-    for (let i = 0; i < this.source.length; i++) {
-      if (this.source[i].isActive === true) {
+  sortTop(list: any[], elem: HTMLElement): void {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].isActive === true) {
         if (i > 0) {
-          this.sortUp();
-          this.sortTop();
+          this.sortUp(list);
+          this.sortTop(list, elem);
         } else {
-          this.sourceContainerElem.nativeElement.scrollTo({
+          elem.scrollTo({
             top: 0,
             left: 0,
             behavior: 'smooth'
@@ -85,39 +95,39 @@ export class CcPicklistComponent implements OnInit {
     }
   }
 
-  sortUp(): void {
-    for (let i = 0; i < this.source.length; i++) {
-      if (this.source[i].isActive === true) {
+  sortUp(list: any[]): void {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].isActive === true) {
          if (i === 0) {
            break;
          } else {
-          [this.source[i], this.source[i-1]] = [this.source[i-1], this.source[i]]
+          [list[i], list[i-1]] = [list[i-1], list[i]]
          }
       }
     }
   }
 
-  sortDown(): void {
-    for (let i = this.source.length - 1; i >= 0; i--) {
-      if (this.source[i].isActive === true) {
-         if (i === this.source.length - 1) {
+  sortDown(list: any[]): void {
+    for (let i = list.length - 1; i >= 0; i--) {
+      if (list[i].isActive === true) {
+         if (i === list.length - 1) {
            break;
          } else {
-          [this.source[i], this.source[i+1]] = [this.source[i+1], this.source[i]]
+          [list[i], list[i+1]] = [list[i+1], list[i]];
          }
       }
     }
   }
 
-  sortBottom(): void {
-    for (let i = this.source.length - 1; i >= 0; i--) {
-      if (this.source[i].isActive === true) {
-        if (i < this.source.length - 1) {
-          this.sortDown();
-          this.sortBottom();
+  sortBottom(list: any[], elem: HTMLElement): void {
+    for (let i = list.length - 1; i >= 0; i--) {
+      if (list[i].isActive === true) {
+        if (i < list.length - 1) {
+          this.sortDown(list);
+          this.sortBottom(list, elem);
         } else {
-          this.sourceContainerElem.nativeElement.scrollTo({
-            top: this.sourceContainerElem.nativeElement.scrollHeight,
+          elem.scrollTo({
+            top: elem.scrollHeight,
             left: 0,
             behavior: 'smooth'
           });
