@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
@@ -46,6 +47,7 @@ export class CcPicklistComponent implements OnInit {
   @Input() targetHeader: string = '';
   @Input() clientsideSearch: boolean = true;
   @Input() searchBy: string = '';
+  @Input() autoScrollAfterTransfer: boolean = true;
   @Output() searchTriggered = new EventEmitter<string>();
 
   @ContentChild(TemplateRef) template!: TemplateRef<any>;
@@ -58,7 +60,7 @@ export class CcPicklistComponent implements OnInit {
   componentId: string;
   listType: any = ListType;
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.componentId = this.createComponentId();
   }
 
@@ -93,14 +95,15 @@ export class CcPicklistComponent implements OnInit {
     }
   }
 
-  transferSourceToTarget(transferAll: boolean = false): void {
+  transferSourceToTarget(transferAll: boolean = false, elem?: HTMLElement): void {
     if (transferAll === true) {
       this.source.forEach((item) => (item.isActive = true));
     }
 
     let checked: any[] = [];
 
-    var i = this.source.length;
+    // remove checked items from source:
+    let i = this.source.length;
     while (i--) {
       if (this.source[i].isActive) {
         checked.push(this.source[i]);
@@ -109,21 +112,33 @@ export class CcPicklistComponent implements OnInit {
     }
     this.sourceRaw = this.source;
 
+    // add checked items to target:
     for (let i = 0; i < checked.length; i++) {
       checked[i].isActive = false;
       this.target.push(checked[i]); 
     }
     this.targetRaw = this.target;
+
+    // scroll bottom after transfer:
+    if (this.autoScrollAfterTransfer === true && elem !== undefined) {
+      this.cdr.detectChanges();
+      elem.scrollTo({
+        top: elem.scrollHeight,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
   }
 
-  transferTargetToSource(transferAll: boolean = false): void {
+  transferTargetToSource(transferAll: boolean = false, elem?: HTMLElement): void {
     if (transferAll === true) {
       this.target.forEach((item) => (item.isActive = true));
     }
 
     let checked: any[] = [];
 
-    var i = this.target.length;
+    // remove checked items from target:
+    let i = this.target.length;
     while (i--) {
       if (this.target[i].isActive) {
         checked.push(this.target[i]);
@@ -132,11 +147,22 @@ export class CcPicklistComponent implements OnInit {
     }
     this.targetRaw = this.target;
 
+    // add checked items to source:
     for (let i = 0; i < checked.length; i++) {
       checked[i].isActive = false;
       this.source.push(checked[i]); 
     }
     this.sourceRaw = this.source;
+
+    // scroll bottom after transfer:
+    if (this.autoScrollAfterTransfer === true && elem !== undefined) {
+      this.cdr.detectChanges();
+      elem.scrollTo({
+        top: elem.scrollHeight,
+        left: 0,
+        behavior: 'smooth',
+      });
+    }
   }
 
   sortTop(list: any[], elem: HTMLElement): void {

@@ -42,11 +42,11 @@
 
   <div class="cc-picklist-buttons cc-picklist-transfer-buttons">
     <button class="primary-button" (click)="transferSourceToTarget(true)"><i class="fas fa-angle-double-right"></i></button>
-    <button class="primary-button p-relative" (click)="transferSourceToTarget()">
+    <button class="primary-button p-relative" (click)="transferSourceToTarget(false, targetContainer)">
       <i class="fas fa-angle-right"></i>
       <span class="cc-badge" *ngIf="getCheckedItems(listType.Source).length > 0">{{getCheckedItems(listType.Source).length}}</span>
     </button>
-    <button class="primary-button p-relative" (click)="transferTargetToSource()">
+    <button class="primary-button p-relative" (click)="transferTargetToSource(false, sourceContainer)">
       <i class="fas fa-angle-left"></i>
       <span class="cc-badge" *ngIf="getCheckedItems(listType.Target).length > 0">{{getCheckedItems(listType.Target).length}}</span>
     </button>
