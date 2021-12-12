@@ -29,7 +29,5 @@ export class AppComponent {
 
   onSearch(searchString: string): void {
     console.log(searchString);
-    console.log(this.sourceData.length);
-    console.log(this.targetData.length);
   }
 }
