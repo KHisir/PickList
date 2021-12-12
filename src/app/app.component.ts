@@ -25,4 +25,8 @@ export class AppComponent {
     };
     req.send();
   }
+
+  onSearch(searchString: string): void {
+    console.log(searchString);
+  }
 }

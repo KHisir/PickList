@@ -13,7 +13,13 @@
 
   <div class="cc-picklist-wrapper cc-picklist-source-wrapper">
     <div class="cc-picklist-header"><b>{{sourceHeader}}</b></div>
-    <div class="cc-picklist-filter">filter</div>
+    <div class="cc-picklist-filter">
+      <div class="cc-search-box">
+        <input type="text" [(ngModel)]="sourceSearchString" (keyup.enter)="searchOnClick(sourceSearchString, source, sourceRaw, listType.Source)" placeholder="Search">
+        <button type="button" class="secondary-button" (click)="sourceSearchString = ''; searchOnClick(sourceSearchString, source, sourceRaw, listType.Source)" title="Clear"><i class="fas fa-times"></i></button>
+        <button type="button" class="secondary-button" (click)="searchOnClick(sourceSearchString, source, sourceRaw, listType.Source)" title="Search"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
     <div class="cc-picklist-list" #sourceContainer>
       <div class="cc-picklist-list-item" *ngFor="let item of source; let i = index;" [attr.data-index]="i" [class.checked-background]="item.isActive === true">
         <div class="cc-checkbox">
@@ -24,7 +30,7 @@
               </svg></span><span></span></label>
         </div>
         <div>
-          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item}"></ng-container>
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item, searchString: sourceSearchString}"></ng-container>
         </div>
       </div>
     </div>
@@ -49,7 +55,13 @@
 
   <div class="cc-picklist-wrapper cc-picklist-target-wrapper">
     <div class="cc-picklist-header"><b>{{targetHeader}}</b></div>
-    <div class="cc-picklist-filter">filter</div>
+    <div class="cc-picklist-filter">
+      <div class="cc-search-box">
+        <input type="text" [(ngModel)]="targetSearchString" (keyup.enter)="searchOnClick(targetSearchString, target, targetRaw, listType.Target)" placeholder="Search">
+        <button type="button" class="secondary-button" (click)="targetSearchString = ''; searchOnClick(targetSearchString, target, targetRaw, listType.Target)" title="Clear"><i class="fas fa-times"></i></button>
+        <button type="button" class="secondary-button" (click)="searchOnClick(targetSearchString, target, targetRaw, listType.Target)" title="Search"><i class="fas fa-search"></i></button>
+      </div>
+    </div>
     <div class="cc-picklist-list" #targetContainer>
       <div class="cc-picklist-list-item" *ngFor="let item of target; let i = index" [attr.data-index]="i" [class.checked-background]="item.isActive === true">
         <div class="cc-checkbox">
@@ -60,7 +72,7 @@
               </svg></span><span></span></label>
         </div>
         <div>
-          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item}"></ng-container>
+          <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{item: item, searchString: targetSearchString}"></ng-container>
         </div>
       </div>
     </div>

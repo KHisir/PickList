@@ -7,7 +7,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.3.
 
-# Like my work?
+## Like my work?
+
 If you like my work, you can also support me with caffeine. I certainly drank many coffees to build and keep adding features for this great component.
 
 <a href='https://ko-fi.com/componentcollection'

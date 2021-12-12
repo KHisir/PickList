@@ -1,4 +1,4 @@
-import { Component, ContentChild, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ListType } from './model/listType';
 
 @Component({
@@ -8,19 +8,48 @@ import { ListType } from './model/listType';
 })
 export class CcPicklistComponent implements OnInit {
 
-  @Input() source: any[] = [];
-  @Input() target: any[] = [];
+  private _source: any[] = [];
+  private _target: any[] = [];
+
+  @Input() 
+  public set source(v: any[]) {
+    this._source = v;
+    if (this.sourceRaw.length === 0 && this._source.length > 0) {
+      this.sourceRaw = v;
+    }
+  }
+  public get source(): any[] {
+    return this._source;
+  }
+
+  @Input() 
+  public set target(v: any[]) {
+    this._target = v;
+    if (this.targetRaw.length === 0 && this._target.length > 0) {
+      this.targetRaw = v;
+    }
+  }
+  public get target(): any[] {
+    return this._target;
+  }
 
   @Input() sourceHeader: string = "";
   @Input() targetHeader: string = "";
-
+  @Input() clientsideSearch: boolean = true;
+  @Input() searchBy: string = "";
+  @Output() searchTriggered = new EventEmitter<string>();
+  
   @ContentChild(TemplateRef) template!: TemplateRef<any>
-  @ViewChild('sourceContainer', { static: false }) sourceContainerElem!: ElementRef;
+
+  sourceRaw: any[] = [];
+  targetRaw: any[] = [];
+  sourceSearchString: string = '';
+  targetSearchString: string = '';
 
   componentId: string;
   listType: any = ListType;
 
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     this.componentId = this.createComponentId();
   }
 
@@ -32,6 +61,22 @@ export class CcPicklistComponent implements OnInit {
       return this.source.filter((x) => x.isActive === true);
     } else {
       return this.target.filter((x) => x.isActive === true);
+    }
+  }
+
+  searchOnClick(searchString: string, list: any[], listRaw: any[], listType: ListType): void {
+    if (this.clientsideSearch === true) {
+      list = listRaw.filter((item: any) => {
+        return item[this.searchBy].toLowerCase().includes(searchString);
+      });
+    } else {
+      this.searchTriggered.emit(searchString);
+    }
+    
+    if (listType === ListType.Source) {
+      this.source = list;
+    } else {
+      this.target = list;
     }
   }
 
@@ -53,7 +98,9 @@ export class CcPicklistComponent implements OnInit {
     }
 
     this.source = rest;
+    this.sourceRaw = this.source ;
     this.target = this.target.concat(checked);
+    this.targetRaw = this.target;
   }
 
   transferTargetToSource(transferAll: boolean = false): void {
@@ -74,7 +121,9 @@ export class CcPicklistComponent implements OnInit {
     }
 
     this.target = rest;
+    this.targetRaw = this.target;
     this.source = this.source.concat(checked);
+    this.sourceRaw = this.source;
   }
 
   sortTop(list: any[], elem: HTMLElement): void {

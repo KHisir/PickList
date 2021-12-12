@@ -1,5 +1,5 @@
-<app-cc-picklist [source]="sourceData" sourceHeader="Data" targetHeader="Selected">
-  <ng-template let-item="item">
-    <span>{{item.name}}</span>
+<app-cc-picklist [source]="sourceData" sourceHeader="Data" targetHeader="Selected" searchBy="name" (searchTriggered)="onSearch($event)">
+  <ng-template let-item="item" let-searchString="searchString">
+    <span [innerHtml]="item.name | highlightSearch: searchString"></span>
   </ng-template>
 </app-cc-picklist>
