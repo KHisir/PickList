@@ -20,6 +20,10 @@ If you like my work, you can also support me with caffeine. I certainly drank ma
          alt='Buy Me a Coffee at ko-fi.com' />
 </a>
 
+# Documentation & Preview
+
+https://componentcollection.com/cc-components/PickList
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
