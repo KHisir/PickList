@@ -9,6 +9,7 @@ export class AppComponent {
   title = 'cc-picklist';
 
   sourceData: any[] = [];
+  targetData: any[] = [];
 
   constructor() {
     this.fetch((res: any) => {
@@ -28,5 +29,7 @@ export class AppComponent {
 
   onSearch(searchString: string): void {
     console.log(searchString);
+    console.log(this.sourceData.length);
+    console.log(this.targetData.length);
   }
 }
